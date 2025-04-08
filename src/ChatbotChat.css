@@ -1,120 +1,144 @@
-/* Chatbot Container */
+/* General styles for the chatbot container */
 .chatbot-container {
-  font-family: 'Segoe UI', sans-serif;
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  background: linear-gradient(to bottom, #1e3c72, #2a5298); /* Blue gradient */
-  overflow: hidden;
-}
-
-/* Chat Window */
-.chat-window {
-  flex: 1;
-  padding: 10px;
-  overflow-y: auto;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-}
-
-.message {
-  background-color: #ffffff;
+  align-items: center;
+  max-width: 100%;
+  padding: 20px;
+  background: linear-gradient(45deg, #007bff, #00aaff);
   border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  position: relative;
+  min-width: 320px;
+  margin: auto; /* Centers the chat window */
+}
+
+/* Chat window styling */
+.chat-window {
+  max-width: 400px; /* Control the width to make the chat narrower */
+  width: 100%;
+  background-color: white; /* White background for chat */
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  overflow-y: auto;
+  max-height: 500px; /* Keeps the height reasonable */
+  height: auto;
+}
+
+/* Message formatting */
+.message {
+  margin-bottom: 10px;
   padding: 10px;
-  margin: 5px 0;
-  max-width: 70%;
+  border-radius: 10px;
+  max-width: 80%;
+  word-wrap: break-word;
 }
 
-.message.bot {
-  align-self: flex-start;
-  background-color: #f1f1f1;
-}
-
+/* User message bubble */
 .message.user {
-  align-self: flex-end;
-  background-color: #b3e5fc;
-}
-
-/* Buttons Container */
-.chat-button-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 10px;
-}
-
-.chat-button {
-  background-color: #4caf50;
+  background-color: #007bff;
   color: white;
-  padding: 10px 20px;
-  font-size: 14px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
+  align-self: flex-end;
+  border-radius: 20px;
 }
 
-.chat-button:hover {
-  background-color: #45a049;
+/* Bot message bubble */
+.message.bot {
+  background-color: #f1f1f1;
+  color: #333;
+  align-self: flex-start;
+  border-radius: 20px;
 }
 
-/* Input Area */
+/* Loading state */
+.message.bot .loading {
+  font-style: italic;
+}
+
+/* Input area styling */
 .input-area {
   display: flex;
   justify-content: space-between;
-  padding: 10px;
-  background-color: #ffffff;
-  border-top: 2px solid #ddd;
   align-items: center;
+  width: 100%;
+  margin-top: 10px;
 }
 
-.input-area input {
-  flex: 1;
+input[type="text"] {
+  width: 80%;
   padding: 10px;
   margin-right: 10px;
-  border-radius: 20px;
+  border-radius: 5px;
   border: 1px solid #ddd;
 }
 
-.input-area button {
+button {
+  padding: 10px 20px;
+  border-radius: 5px;
   background-color: #007bff;
   color: white;
-  padding: 10px;
-  border-radius: 20px;
   border: none;
   cursor: pointer;
 }
 
-.input-area button:hover {
+button:hover {
   background-color: #0056b3;
 }
 
+input[type="file"] {
+  display: none;
+}
+
 .upload-button {
-  background-color: #28a745;
-  padding: 10px;
-  border-radius: 50%;
+  font-size: 24px;
   cursor: pointer;
+  margin-left: 10px;
 }
 
-.upload-button:hover {
-  background-color: #218838;
-}
-
-/* Footer */
+/* Styling for footer links */
 .footer {
-  background-color: #2c3e50;
-  text-align: center;
-  padding: 10px 0;
-  position: relative;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-top: 20px;
 }
 
 .footer a {
-  color: #fff;
-  text-decoration: none;
   margin: 0 10px;
-  font-size: 14px;
+  text-decoration: none;
+  color: #007bff;
+  font-weight: bold;
 }
 
 .footer a:hover {
   text-decoration: underline;
+}
+
+/* Fix for the green ring around the camera icon */
+#file-upload:focus + .upload-button {
+  outline: none;
+  border: none;
+}
+
+.chat-button-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+.chat-button {
+  padding: 8px 15px;
+  background-color: #007bff;
+  color: white;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+}
+
+.chat-button:hover {
+  background-color: #0056b3;
 }
