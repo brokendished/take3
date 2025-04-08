@@ -9,63 +9,79 @@ function ChatbotChat() {
   const [step, setStep] = useState(0);
   const [loading, setLoading] = useState(false);
   const [image, setImage] = useState(null);
-  const [form, setForm] = useState({ name: '', email: '', issue: '' });
+  const [form, setForm] = useState({
+    name: '',
+    email: '',
+    phone: ''
+  });
 
   const sendMessage = async () => {
     if (!input.trim()) return;
 
-    setMessages(prev => [...prev, { from: 'user', text: input }]);
+    const newMessage = { from: 'user', text: input };
+    const updatedMessages = [...messages, newMessage];
+    setMessages(updatedMessages);
+    setInput('');
 
     if (step === 0) {
-      setForm(prev => ({ ...prev, issue: input }));
-      setMessages(prev => [
-        ...prev,
-        { from: 'bot', text: 'Got it! What’s your name?' }
-      ]);
+      setMessages([...updatedMessages, { from: 'bot', text: 'Got it! What’s your name?' }]);
       setStep(1);
     } else if (step === 1) {
       setForm(prev => ({ ...prev, name: input }));
-      setMessages(prev => [
-        ...prev,
-        { from: 'bot', text: 'Thanks! And your email?' }
-      ]);
+      setMessages([...updatedMessages, { from: 'bot', text: 'Cool — and your email?' }]);
       setStep(2);
     } else if (step === 2) {
-      const finalForm = { ...form, email: input };
-      setForm(finalForm);
-      setMessages(prev => [
-        ...prev,
-        { from: 'bot', text: 'Give me a sec to look into that…' }
-      ]);
-      setStep(3);
-      setLoading(true);
-
-      try {
-        const res = await fetch('/api/aiQuote', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            name: finalForm.name,
-            email: input,
-            issue: finalForm.issue,
-            image,
-            aiResponse: '',
-            message: `Issue: ${finalForm.issue}, Name: ${finalForm.name}, Email: ${input}, Photo uploaded: ${image ? 'yes' : 'no'}`
-          })
-        });
-
-        const data = await res.json();
-        const reply = data.reply || 'Hmm, I couldn’t figure that one out.';
-        setMessages(prev => [...prev, { from: 'bot', text: reply }]);
-      } catch (err) {
-        console.error(err);
-        setMessages(prev => [...prev, { from: 'bot', text: 'Something went wrong. Try again later.' }]);
-      } finally {
-        setLoading(false);
+      const validEmail = input.includes('@') && input.includes('.');
+      if (validEmail) {
+        setForm(prev => ({ ...prev, email: input }));
+        setStep(4);
+        await handleAIResponse(updatedMessages, { ...form, email: input });
+      } else {
+        setMessages([...updatedMessages, { from: 'bot', text: 'No worries — can I grab your phone number instead?' }]);
+        setStep(3);
       }
+    } else if (step === 3) {
+      const cleaned = input.replace(/\D/g, '');
+      if (cleaned.length >= 7) {
+        setForm(prev => ({ ...prev, phone: input }));
+        setStep(4);
+        await handleAIResponse(updatedMessages, { ...form, phone: input });
+      } else {
+        setMessages([...updatedMessages, {
+          from: 'bot',
+          text: 'Totally cool — I just need some way to reach you. Email or phone?'
+        }]);
+      }
+    } else {
+      // Chat continues after setup
+      await handleAIResponse(updatedMessages, form);
     }
+  };
 
-    setInput('');
+  const handleAIResponse = async (allMessages, formData) => {
+    setLoading(true);
+    setMessages([...allMessages, { from: 'bot', text: 'Let me think for a second...' }]);
+
+    try {
+      const res = await fetch('/api/aiQuote', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ...formData,
+          image,
+          messages: allMessages
+        })
+      });
+
+      const data = await res.json();
+      const reply = data.reply || 'Hmm, I couldn’t figure that one out.';
+      setMessages(prev => [...prev, { from: 'bot', text: reply }]);
+    } catch (err) {
+      console.error(err);
+      setMessages(prev => [...prev, { from: 'bot', text: 'Something went wrong. Try again later.' }]);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleImageUpload = (e) => {
