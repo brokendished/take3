@@ -121,7 +121,10 @@ function App() {
   };
 
   return (
-    <div className="app-wrapper">
+    <div className="chatbot-container">
+      <header>
+        <img src="logo.png" alt="Logo" className="logo" />
+      </header>
       <div className="chat-window">
         {messages.map((msg, i) => (
           <div key={i} className={`message ${msg.from}`}>
