@@ -12,8 +12,14 @@ function ChatbotChat() {
   const [form, setForm] = useState({
     name: '',
     email: '',
-    phone: ''
+    phone: '',
+    category: ''
   });
+
+  const categories = [
+    "Plumbing", "Painting", "Car", "AC / HVAC", "Outdoor",
+    "Electrical", "Handyman", "Windows & Doors", "Appliance Repair", "Other"
+  ];
 
   const sendMessage = async () => {
     if (!input.trim()) return;
@@ -24,8 +30,14 @@ function ChatbotChat() {
     setInput('');
 
     if (step === 0) {
-      setMessages([...updatedMessages, { from: 'bot', text: 'Got it! What’s your name?' }]);
-      setStep(1);
+      setMessages([...updatedMessages, {
+        from: 'bot',
+        text: 'Got it! What type of help do you need?',
+        buttons: categories
+      }]);
+      setStep(0.5);
+    } else if (step === 0.5) {
+      // Shouldn’t happen — users should click a button here
     } else if (step === 1) {
       setForm(prev => ({ ...prev, name: input }));
       setMessages([...updatedMessages, { from: 'bot', text: 'Cool — and your email?' }]);
@@ -53,7 +65,6 @@ function ChatbotChat() {
         }]);
       }
     } else {
-      // Chat continues after setup
       await handleAIResponse(updatedMessages, form);
     }
   };
@@ -101,11 +112,28 @@ function ChatbotChat() {
     if (e.key === 'Enter') sendMessage();
   };
 
+  const handleCategoryClick = (category) => {
+    const msg = `Selected: ${category}`;
+    setForm(prev => ({ ...prev, category }));
+    const newMessages = [...messages, { from: 'user', text: msg }];
+    setMessages([...newMessages, { from: 'bot', text: 'Thanks! What’s your name?' }]);
+    setStep(1);
+  };
+
   return (
     <div className="chatbot-container">
       <div className="chat-window">
         {messages.map((msg, i) => (
-          <div key={i} className={`message ${msg.from}`}>{msg.text}</div>
+          <div key={i} className={`message ${msg.from}`}>
+            {msg.text}
+            {msg.buttons && (
+              <div className="chat-button-container">
+                {msg.buttons.map((btn, j) => (
+                  <button key={j} className="chat-button" onClick={() => handleCategoryClick(btn)}>{btn}</button>
+                ))}
+              </div>
+            )}
+          </div>
         ))}
         {image && <img src={image} alt="Uploaded" className="preview" />}
         {loading && <div className="message bot">...</div>}
