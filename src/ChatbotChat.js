@@ -3,7 +3,7 @@ import './ChatbotChat.css';
 
 function ChatbotChat() {
   const [messages, setMessages] = useState([
-    { from: 'bot', text: 'Hey! What’s going on at your place today?' }
+    { from: 'bot', text: 'Hey! How can I help today?' }
   ]);
   const [input, setInput] = useState('');
   const [step, setStep] = useState(0);
