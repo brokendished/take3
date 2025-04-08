@@ -36,6 +36,8 @@ function ChatbotChat() {
         buttons: categories
       }]);
       setStep(0.5);
+    } else if (step === 0.5) {
+      // User should select a category using buttons, no need for text input here.
     } else if (step === 1) {
       setForm(prev => ({ ...prev, name: input }));
       setMessages([...updatedMessages, { from: 'bot', text: 'Cool — and your email?' }]);
@@ -120,11 +122,6 @@ function ChatbotChat() {
 
   return (
     <div className="chatbot-container">
-      <header>
-        <div className="logo">AI Quote Chat</div>
-        <button className="menu-button">Menu</button>
-      </header>
-
       <div className="chat-window">
         {messages.map((msg, i) => (
           <div key={i} className={`message ${msg.from}`}>
@@ -138,4 +135,34 @@ function ChatbotChat() {
             )}
           </div>
         ))}
-        {
+        {image && <img src={image} alt="Uploaded" className="preview" />}
+        {loading && <div className="message bot">...</div>}
+      </div>
+
+      <div className="input-area">
+        <input
+          type="text"
+          value={input}
+          placeholder="Type your message..."
+          onChange={e => setInput(e.target.value)}
+          onKeyDown={handleKeyDown}
+        />
+        <input
+          type="file"
+          accept="image/*"
+          id="file-upload"
+          style={{ display: 'none' }}
+          onChange={handleImageUpload}
+        />
+        <label htmlFor="file-upload" className="upload-button" title="Upload a photo">📸</label>
+        <button onClick={sendMessage}>Send</button>
+      </div>
+
+      <footer className="footer">
+        <a href="#">Contact</a> · <a href="#">Terms</a> · <a href="#">About</a>
+      </footer>
+    </div>
+  );
+}
+
+export default ChatbotChat;
