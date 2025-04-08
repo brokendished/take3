@@ -12,7 +12,6 @@ function ChatbotChat() {
   const [form, setForm] = useState({
     name: '',
     email: '',
-    phone: '',
     category: ''
   });
 
@@ -37,7 +36,7 @@ function ChatbotChat() {
       }]);
       setStep(0.5);
     } else if (step === 0.5) {
-      // User should select a category using buttons, no need for text input here.
+      // Shouldn’t happen — users should click a button here
     } else if (step === 1) {
       setForm(prev => ({ ...prev, name: input }));
       setMessages([...updatedMessages, { from: 'bot', text: 'Cool — and your email?' }]);
@@ -46,23 +45,10 @@ function ChatbotChat() {
       const validEmail = input.includes('@') && input.includes('.');
       if (validEmail) {
         setForm(prev => ({ ...prev, email: input }));
-        setStep(4);
+        setStep(3); // Proceed to the next step (sending data to the contractor)
         await handleAIResponse(updatedMessages, { ...form, email: input });
       } else {
-        setMessages([...updatedMessages, { from: 'bot', text: 'No worries — can I grab your phone number instead?' }]);
-        setStep(3);
-      }
-    } else if (step === 3) {
-      const cleaned = input.replace(/\D/g, '');
-      if (cleaned.length >= 7) {
-        setForm(prev => ({ ...prev, phone: input }));
-        setStep(4);
-        await handleAIResponse(updatedMessages, { ...form, phone: input });
-      } else {
-        setMessages([...updatedMessages, {
-          from: 'bot',
-          text: 'Totally cool — I just need some way to reach you. Email or phone?'
-        }]);
+        setMessages([...updatedMessages, { from: 'bot', text: 'Please provide a valid email address so I can send you a quote.' }]);
       }
     } else {
       await handleAIResponse(updatedMessages, form);
