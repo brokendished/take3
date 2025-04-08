@@ -1,7 +1,3 @@
-import { Resend } from 'resend';
-
-const resend = new Resend(process.env.RESEND_API_KEY);
-
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Only POST requests allowed' });
@@ -46,32 +42,7 @@ export default async function handler(req, res) {
     console.error('OpenAI error:', err.message);
   }
 
-  // Optional email via Resend
-  try {
-    if (process.env.RESEND_API_KEY) {
-      await resend.emails.send({
-        from: 'AI Quote Bot <no-reply@yourdomain.com>',
-        to: 'your@email.com', // Replace this!
-        subject: 'New AI Chat Session',
-        html: `
-          <h2>New Submission</h2>
-          <p><strong>Name:</strong> ${name}</p>
-          <p><strong>Email:</strong> ${email || 'N/A'}</p>
-          <p><strong>Phone:</strong> ${phone || 'N/A'}</p>
-          <p><strong>Uploaded Photo:</strong> ${image ? 'Yes' : 'No'}</p>
-          <p><strong>Issue:</strong> ${issue}</p>
-          <h3>Transcript:</h3>
-          ${messages.map(m => `<p><strong>${m.from}:</strong> ${m.text}</p>`).join('')}
-          <h3>AI Response:</h3>
-          <p>${aiResponse}</p>
-        `
-      });
-    }
-  } catch (err) {
-    console.error('Email error:', err.message);
-  }
-
-  // Google Sheets Logging
+  // Google Sheets Logging only
   try {
     if (process.env.SHEET_WEBHOOK_URL) {
       await fetch(process.env.SHEET_WEBHOOK_URL, {
