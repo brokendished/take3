@@ -3,7 +3,7 @@ import './ChatbotChat.css';
 
 function ChatbotChat() {
   const [messages, setMessages] = useState([
-    { from: 'bot', text: 'Hey! How can we help you today?' }
+    { from: 'bot', text: 'Hey! What’s going on at your place today?' }
   ]);
   const [input, setInput] = useState('');
   const [step, setStep] = useState(0);
@@ -31,7 +31,8 @@ function ChatbotChat() {
       ]);
       setStep(2);
     } else if (step === 2) {
-      setForm(prev => ({ ...prev, email: input }));
+      const finalForm = { ...form, email: input };
+      setForm(finalForm);
       setMessages(prev => [
         ...prev,
         { from: 'bot', text: 'Give me a sec to look into that…' }
@@ -44,11 +45,12 @@ function ChatbotChat() {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            name: form.name,
+            name: finalForm.name,
             email: input,
-            issue: form.issue,
+            issue: finalForm.issue,
             image,
-            message: `User issue: ${form.issue}. Name: ${form.name}, Email: ${input}. ${image ? 'They uploaded a photo.' : 'No photo uploaded.'}`
+            aiResponse: '',
+            message: `Issue: ${finalForm.issue}, Name: ${finalForm.name}, Email: ${input}, Photo uploaded: ${image ? 'yes' : 'no'}`
           })
         });
 
@@ -56,6 +58,7 @@ function ChatbotChat() {
         const reply = data.reply || 'Hmm, I couldn’t figure that one out.';
         setMessages(prev => [...prev, { from: 'bot', text: reply }]);
       } catch (err) {
+        console.error(err);
         setMessages(prev => [...prev, { from: 'bot', text: 'Something went wrong. Try again later.' }]);
       } finally {
         setLoading(false);
