@@ -3,7 +3,7 @@ import './ChatbotChat.css';
 
 function ChatbotChat() {
   const [messages, setMessages] = useState([
-    { from: 'bot', text: 'Hey! What’s going on at your place today?' }
+    { from: 'bot', text: 'Hey! How can we help you today?' }
   ]);
   const [input, setInput] = useState('');
   const [step, setStep] = useState(0);
@@ -44,15 +44,16 @@ function ChatbotChat() {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            message: `Here’s the issue: ${form.issue}.
-            Their name is ${form.name}, email: ${input}.
-            The user ${image ? 'uploaded a photo' : 'did not upload a photo'}.
-            Give them a friendly quote and suggestion in 2–3 sentences.`
+            name: form.name,
+            email: input,
+            issue: form.issue,
+            image,
+            message: `User issue: ${form.issue}. Name: ${form.name}, Email: ${input}. ${image ? 'They uploaded a photo.' : 'No photo uploaded.'}`
           })
         });
 
         const data = await res.json();
-        const reply = data.reply || "Hmm, I couldn't figure that one out.";
+        const reply = data.reply || 'Hmm, I couldn’t figure that one out.';
         setMessages(prev => [...prev, { from: 'bot', text: reply }]);
       } catch (err) {
         setMessages(prev => [...prev, { from: 'bot', text: 'Something went wrong. Try again later.' }]);
@@ -87,7 +88,7 @@ function ChatbotChat() {
         {messages.map((msg, i) => (
           <div key={i} className={`message ${msg.from}`}>{msg.text}</div>
         ))}
-        {image && <img src={image} alt="Upload" className="preview" />}
+        {image && <img src={image} alt="Uploaded" className="preview" />}
         {loading && <div className="message bot">...</div>}
       </div>
 
@@ -106,7 +107,7 @@ function ChatbotChat() {
           style={{ display: 'none' }}
           onChange={handleImageUpload}
         />
-        <label htmlFor="file-upload" className="upload-button">📸</label>
+        <label htmlFor="file-upload" className="upload-button" title="Upload a photo">📸</label>
         <button onClick={sendMessage}>Send</button>
       </div>
 
