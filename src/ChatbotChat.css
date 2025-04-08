@@ -68,3 +68,12 @@
   color: #555;
   background: #f0f0f0;
 }
+
+.upload-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.3rem;
+  padding: 4px 8px;
+  margin-right: 6px;
+}
