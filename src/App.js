@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import ChatbotChat from './ChatbotChat'; // Chatbot component
 import './App.css';
 
 function App() {
@@ -37,7 +38,7 @@ function App() {
       }]);
       setStep(0.5);
     } else if (step === 0.5) {
-      // Shouldn’t happen — users should click a button here
+      // This is where the user selects a category button
     } else if (step === 1) {
       setForm(prev => ({ ...prev, name: input }));
       setMessages([...updatedMessages, { from: 'bot', text: 'Cool — and your email?' }]);
@@ -49,7 +50,7 @@ function App() {
         setStep(4);
         await handleAIResponse(updatedMessages, { ...form, email: input });
       } else {
-        setMessages([...updatedMessages, { from: 'bot', text: 'No worries — can I grab your phone number instead?' }]);
+        setMessages([...updatedMessages, { from: 'bot', text: 'Please provide a valid email address.' }]);
         setStep(3);
       }
     } else if (step === 3) {
@@ -108,10 +109,6 @@ function App() {
     ]);
   };
 
-  const handleKeyDown = (e) => {
-    if (e.key === 'Enter') sendMessage();
-  };
-
   const handleCategoryClick = (category) => {
     const msg = `Selected: ${category}`;
     setForm(prev => ({ ...prev, category }));
@@ -122,9 +119,16 @@ function App() {
 
   return (
     <div className="chatbot-container">
-      <header>
-        <img src="logo.png" alt="Logo" className="logo" />
+      <header className="header">
+        <div className="logo">
+          <span className="logo-icon">🏡</span>
+          <span className="logo-text">Quick Quote</span>
+        </div>
+        <nav>
+          <a href="#">Contact</a> · <a href="#">Terms</a> · <a href="#">About</a>
+        </nav>
       </header>
+
       <div className="chat-window">
         {messages.map((msg, i) => (
           <div key={i} className={`message ${msg.from}`}>
@@ -148,7 +152,6 @@ function App() {
           value={input}
           placeholder="Type your message..."
           onChange={e => setInput(e.target.value)}
-          onKeyDown={handleKeyDown}
         />
         <input
           type="file"
