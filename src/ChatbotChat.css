@@ -6,6 +6,8 @@
   justify-content: flex-start;
   height: 100vh;
   background: linear-gradient(to top, #007bff, #4e8dff); /* Background gradient for professionalism */
+  padding: 20px;
+  box-sizing: border-box;
 }
 
 /* Chat Window */
@@ -21,6 +23,7 @@
   border-radius: 15px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow to make it pop */
   margin-bottom: 10px;
+  margin-top: 20px; /* Added space from top */
 }
 
 /* Individual Messages */
@@ -29,6 +32,8 @@
   border-radius: 10px;
   margin: 5px 0;
   font-size: 14px;
+  max-width: 80%; /* Limits the size of messages */
+  word-wrap: break-word; /* Ensures long text breaks to fit inside */
 }
 
 .bot {
@@ -43,14 +48,6 @@
   align-self: flex-end;
 }
 
-input,
-button {
-  padding: 10px;
-  border-radius: 5px;
-  font-size: 14px;
-  margin-right: 10px;
-}
-
 /* Input Area */
 .input-area {
   display: flex;
@@ -58,23 +55,37 @@ button {
   align-items: center;
   width: 100%;
   padding: 10px;
+  border-top: 1px solid #ccc;
+  background-color: white;
 }
 
 input {
   flex: 1;
   border: 1px solid #ccc;
   background-color: #fafafa;
+  padding: 10px;
+  border-radius: 5px;
 }
 
 button {
   background-color: #007bff;
   color: white;
   border: none;
+  padding: 10px 15px;
   cursor: pointer;
+  margin-left: 10px;
+  border-radius: 5px;
 }
 
 button:hover {
   background-color: #0056b3;
+}
+
+/* File Upload Button */
+.upload-button {
+  cursor: pointer;
+  font-size: 20px;
+  margin-right: 10px;
 }
 
 /* Image preview */
@@ -101,12 +112,4 @@ footer a {
 
 footer a:hover {
   text-decoration: underline;
-}
-
-/* Video display styles */
-#local-video, #remote-video {
-  display: none;
-  width: 100%;
-  max-width: 500px;
-  margin-top: 10px;
 }
