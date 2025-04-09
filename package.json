@@ -10,7 +10,7 @@
     "webrtc-adapter": "^9.0.1",
     "resend": "^4.2.0",
     "firebase": "^9.6.1",
-    "react-router-dom": "^5.1.0"
+    "react-router-dom": "^5.1.0",
     "@google-cloud/vision": "^3.0.0",
   },
   "devDependencies": {
