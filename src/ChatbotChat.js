@@ -122,12 +122,6 @@ function ChatbotChat() {
 
   return (
     <div className="chatbot-container">
-      {/* Header/Menu */}
-      <div className="header">
-        <a href="#">Home</a> · <a href="#">About</a> · <a href="#">Contact</a>
-      </div>
-
-      {/* Chatbot Window */}
       <div className="chat-window">
         {messages.map((msg, i) => (
           <div key={i} className={`message ${msg.from}`}>
@@ -145,7 +139,6 @@ function ChatbotChat() {
         {loading && <div className="message bot">...</div>}
       </div>
 
-      {/* Input Section */}
       <div className="input-area">
         <input
           type="text"
@@ -165,7 +158,6 @@ function ChatbotChat() {
         <button onClick={sendMessage}>Send</button>
       </div>
 
-      {/* Footer */}
       <footer className="footer">
         <a href="#">Contact</a> · <a href="#">Terms</a> · <a href="#">About</a>
       </footer>
