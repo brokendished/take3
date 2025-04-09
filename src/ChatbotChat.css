@@ -1,115 +1,245 @@
-/* General Container */
-.chatbot-container {
+/* Body and general setup */
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f5f5f5;
+  color: #333;
+  margin: 0;
+  padding: 0;
   display: flex;
   flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Header styles */
+.header {
+  display: flex;
+  justify-content: space-between;
   align-items: center;
-  justify-content: flex-start;
-  height: 100vh;
-  background: linear-gradient(to top, #007bff, #4e8dff); /* Background gradient for professionalism */
-  padding: 20px;
-  box-sizing: border-box;
-}
-
-/* Chat Window */
-.chat-window {
+  padding: 10px 20px;
+  background-color: #333;
+  color: white;
+  font-size: 18px;
+  border-radius: 10px;
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
-  max-width: 500px; /* Make sure it doesn't stretch too wide on desktop */
-  height: 70%; /* Takes up 70% of the screen */
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  padding: 20px;
-  background-color: white; /* White background for the chat area */
-  border-radius: 15px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow to make it pop */
-  margin-bottom: 10px;
-  margin-top: 20px; /* Added space from top */
+  z-index: 999;
 }
 
-/* Individual Messages */
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.logo-part {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.logo-icon {
+  font-size: 32px;
+  animation: bounce 1s infinite; /* Simple bouncing animation for the house emoji */
+}
+
+.logo-text {
+  font-size: 24px;
+  font-weight: bold;
+  font-family: 'Segoe UI', sans-serif;
+  letter-spacing: 1px;
+  animation: fadeIn 2s ease-in-out;
+}
+
+/* Simple bounce animation for logo icon */
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+/* Fade in animation for logo text */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Menu links */
+.header a {
+  color: white;
+  text-decoration: none;
+  padding: 10px;
+  margin: 0 10px;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+.header a:hover {
+  background-color: #444;
+  border-radius: 5px;
+}
+
+/* Chatbot Container */
+.chatbot-container {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 600px;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  padding: 20px;
+}
+
+/* Chat Window Styles */
+.chat-window {
+  max-height: 300px;
+  overflow-y: auto;
+  margin-bottom: 10px;
+}
+
 .message {
   padding: 10px;
-  border-radius: 10px;
-  margin: 5px 0;
-  font-size: 14px;
-  max-width: 80%; /* Limits the size of messages */
-  word-wrap: break-word; /* Ensures long text breaks to fit inside */
+  margin-bottom: 10px;
+  border-radius: 5px;
+  max-width: 80%;
+  line-height: 1.5;
 }
 
-.bot {
-  background-color: #f1f1f1; /* Light grey for bot messages */
-  color: black;
-  align-self: flex-start;
+.message.user {
+  background-color: #e0f7fa;
+  text-align: right;
 }
 
-.user {
-  background-color: #4CAF50; /* Green for user messages */
+.message.bot {
+  background-color: #d1c4e9;
+  text-align: left;
+}
+
+.preview {
+  max-width: 100%;
+  margin-top: 10px;
+  border-radius: 5px;
+}
+
+/* Buttons inside chat */
+.chat-button-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.chat-button {
+  background-color: #03a9f4;
   color: white;
-  align-self: flex-end;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.chat-button:hover {
+  background-color: #0288d1;
 }
 
 /* Input Area */
 .input-area {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  width: 100%;
-  padding: 10px;
-  border-top: 1px solid #ccc;
-  background-color: white;
-}
-
-input {
-  flex: 1;
-  border: 1px solid #ccc;
-  background-color: #fafafa;
-  padding: 10px;
-  border-radius: 5px;
-}
-
-button {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 10px 15px;
-  cursor: pointer;
-  margin-left: 10px;
-  border-radius: 5px;
-}
-
-button:hover {
-  background-color: #0056b3;
-}
-
-/* File Upload Button */
-.upload-button {
-  cursor: pointer;
-  font-size: 20px;
-  margin-right: 10px;
-}
-
-/* Image preview */
-.preview {
-  max-width: 100%;
-  height: auto;
   margin-top: 10px;
 }
 
-/* Footer */
-footer {
-  margin-top: auto;
+.input-area input[type="text"] {
+  width: 80%;
   padding: 10px;
-  text-align: center;
-  background-color: #f8f9fa;
-  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
 }
 
-footer a {
-  color: #007bff;
+.input-area input[type="file"] {
+  display: none;
+}
+
+.upload-button {
+  cursor: pointer;
+  font-size: 24px;
+  background-color: #ffeb3b;
+  padding: 5px;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.upload-button:hover {
+  background-color: #fbc02d;
+}
+
+.input-area button {
+  background-color: #03a9f4;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.input-area button:hover {
+  background-color: #0288d1;
+}
+
+/* Footer Section */
+.footer {
+  text-align: center;
+  padding: 20px;
+  background-color: #333;
+  color: white;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  font-size: 14px;
+}
+
+.footer a {
+  color: white;
   text-decoration: none;
   margin: 0 10px;
+  font-size: 14px;
 }
 
-footer a:hover {
+.footer a:hover {
   text-decoration: underline;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  .chatbot-container {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .header {
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  .logo-text {
+    font-size: 18px;
+  }
+
+  .input-area input[type="text"] {
+    width: 70%;
+  }
 }
