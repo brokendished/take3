@@ -12,6 +12,7 @@ function ChatbotChat() {
   const [form, setForm] = useState({
     name: '',
     email: '',
+    phone: '',
     category: ''
   });
 
@@ -45,10 +46,23 @@ function ChatbotChat() {
       const validEmail = input.includes('@') && input.includes('.');
       if (validEmail) {
         setForm(prev => ({ ...prev, email: input }));
-        setStep(3); // Proceed to the next step (sending data to the contractor)
+        setStep(4);
         await handleAIResponse(updatedMessages, { ...form, email: input });
       } else {
-        setMessages([...updatedMessages, { from: 'bot', text: 'Please provide a valid email address so I can send you a quote.' }]);
+        setMessages([...updatedMessages, { from: 'bot', text: 'No worries — can I grab your phone number instead?' }]);
+        setStep(3);
+      }
+    } else if (step === 3) {
+      const cleaned = input.replace(/\D/g, '');
+      if (cleaned.length >= 7) {
+        setForm(prev => ({ ...prev, phone: input }));
+        setStep(4);
+        await handleAIResponse(updatedMessages, { ...form, phone: input });
+      } else {
+        setMessages([...updatedMessages, {
+          from: 'bot',
+          text: 'Totally cool — I just need some way to reach you. Email or phone?'
+        }]);
       }
     } else {
       await handleAIResponse(updatedMessages, form);
@@ -108,6 +122,12 @@ function ChatbotChat() {
 
   return (
     <div className="chatbot-container">
+      {/* Header/Menu */}
+      <div className="header">
+        <a href="#">Home</a> · <a href="#">About</a> · <a href="#">Contact</a>
+      </div>
+
+      {/* Chatbot Window */}
       <div className="chat-window">
         {messages.map((msg, i) => (
           <div key={i} className={`message ${msg.from}`}>
@@ -125,6 +145,7 @@ function ChatbotChat() {
         {loading && <div className="message bot">...</div>}
       </div>
 
+      {/* Input Section */}
       <div className="input-area">
         <input
           type="text"
@@ -144,6 +165,7 @@ function ChatbotChat() {
         <button onClick={sendMessage}>Send</button>
       </div>
 
+      {/* Footer */}
       <footer className="footer">
         <a href="#">Contact</a> · <a href="#">Terms</a> · <a href="#">About</a>
       </footer>
