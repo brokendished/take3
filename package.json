@@ -11,6 +11,7 @@
     "resend": "^4.2.0",
     "firebase": "^9.6.1",
     "react-router-dom": "^5.1.0"
+    "@google-cloud/vision": "^3.0.0",
   },
   "devDependencies": {
     "eslint": "^7.32.0"
