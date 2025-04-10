@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 
 function App() {
@@ -116,10 +116,10 @@ function App() {
     setStep(1);
   };
 
-  // Handle Enter key for message submission
-  const handleKeyDown = (event) => {
-    if (event.key === 'Enter' && input.trim() !== '') {
-      event.preventDefault();
+  // Handle Enter key press
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
       sendMessage();
     }
   };
@@ -159,7 +159,7 @@ function App() {
           value={input}
           placeholder="Type your message..."
           onChange={e => setInput(e.target.value)}
-          onKeyDown={handleKeyDown} // Enter key functionality
+          onKeyDown={handleKeyPress} // Enable enter key to submit
         />
         <input
           type="file"
@@ -171,6 +171,7 @@ function App() {
         <label htmlFor="file-upload" className="upload-button" title="Upload a photo">📸</label>
         <button onClick={sendMessage}>Send</button>
       </div>
+
     </div>
   );
 }
