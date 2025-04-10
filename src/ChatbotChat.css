@@ -248,7 +248,7 @@ body {
     font-size: 18px;
   }
 
-  .input-area input[type="text"] {
+  .input-area input[type="text here"] {
     width: 70%;
   }
 }
