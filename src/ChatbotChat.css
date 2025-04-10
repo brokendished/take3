@@ -88,7 +88,7 @@ body {
 /* Chatbot Container */
 .chatbot-container {
   position: fixed;
-  bottom: 10px; /* Chatbox stays above the bottom */
+  bottom: 0;
   left: 50%;
   transform: translateX(-50%);
   width: 100%;
@@ -100,11 +100,13 @@ body {
   padding: 20px;
   display: flex;
   flex-direction: column;
-  height: auto;
+  margin-top: 100px; /* Adding space between chat and header */
+  min-height: 300px; /* Ensure chat window stays in view */
 }
 
 /* Chat Window Styles */
 .chat-window {
+  max-height: 300px;
   overflow-y: auto;
   margin-bottom: 10px;
   flex-grow: 1;
@@ -165,6 +167,7 @@ body {
   justify-content: space-between;
   align-items: center;
   margin-top: 10px;
+  width: 100%;
 }
 
 .input-area input[type="text"] {
@@ -206,12 +209,34 @@ body {
   background-color: #0288d1;
 }
 
+/* Footer Section */
+.footer {
+  text-align: center;
+  padding: 20px;
+  background-color: #333;
+  color: white;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  font-size: 14px;
+}
+
+.footer a {
+  color: white;
+  text-decoration: none;
+  margin: 0 10px;
+  font-size: 14px;
+}
+
+.footer a:hover {
+  text-decoration: underline;
+}
+
 /* Responsive Design */
 @media (max-width: 600px) {
   .chatbot-container {
     width: 100%;
     max-width: 100%;
-    bottom: 10px;
   }
 
   .header {
