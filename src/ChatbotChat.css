@@ -88,7 +88,7 @@ body {
 /* Chatbot Container */
 .chatbot-container {
   position: fixed;
-  top: 70px;  /* Position the chatbot below the header */
+  bottom: 80px; /* Space above footer */
   left: 50%;
   transform: translateX(-50%);
   width: 100%;
@@ -100,12 +100,12 @@ body {
   padding: 20px;
   display: flex;
   flex-direction: column;
-  height: 100%;
+  height: auto;
+  max-height: calc(100vh - 150px); /* Prevent overlap with footer */
 }
 
 /* Chat Window Styles */
 .chat-window {
-  max-height: 300px;
   overflow-y: auto;
   margin-bottom: 10px;
   flex-grow: 1;
@@ -235,6 +235,7 @@ body {
   .chatbot-container {
     width: 100%;
     max-width: 100%;
+    bottom: 60px; /* Adjust for mobile screens */
   }
 
   .header {
