@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import ChatbotChat from './ChatbotChat'; // Chatbot component
 import './App.css';
 
 function App() {
@@ -117,6 +116,14 @@ function App() {
     setStep(1);
   };
 
+  // Handle Enter key for message submission
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter' && input.trim() !== '') {
+      event.preventDefault();
+      sendMessage();
+    }
+  };
+
   return (
     <div className="chatbot-container">
       <header className="header">
@@ -152,6 +159,7 @@ function App() {
           value={input}
           placeholder="Type your message..."
           onChange={e => setInput(e.target.value)}
+          onKeyDown={handleKeyDown} // Enter key functionality
         />
         <input
           type="file"
@@ -163,10 +171,6 @@ function App() {
         <label htmlFor="file-upload" className="upload-button" title="Upload a photo">📸</label>
         <button onClick={sendMessage}>Send</button>
       </div>
-
-      <footer className="footer">
-        <a href="#">Contact</a> · <a href="#">Terms</a> · <a href="#">About</a>
-      </footer>
     </div>
   );
 }
